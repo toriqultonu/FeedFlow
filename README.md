@@ -1,4 +1,4 @@
-# Jetpack Compose App
+# Feed Flow
 
 An Android application built with Jetpack Compose that demonstrates user authentication, data retrieval from a local JSON file (simulating a remote API like JSONPlaceholder), offline support using Room database, search functionality, favorites management, and dark mode toggle.
 
