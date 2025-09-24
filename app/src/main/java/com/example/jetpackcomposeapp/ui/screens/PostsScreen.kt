@@ -2,6 +2,7 @@ package com.example.jetpackcomposeapp.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -146,23 +149,15 @@ fun PostsScreen(navController: NavController) {
                         }
                     }
                     if (displayPosts.loadState.refresh is LoadState.Loading) {
-                        item {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                color = MaterialTheme.colorScheme.primary
-                            )
+                        // Show 5 shimmering placeholders for initial load
+                        items(5) {
+                            ShimmerPostCard()
                         }
                     }
                     if (displayPosts.loadState.append is LoadState.Loading) {
+                        // Show one shimmering placeholder for appending more items
                         item {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                color = MaterialTheme.colorScheme.primary
-                            )
+                            ShimmerPostCard()
                         }
                     }
                     if (displayPosts.loadState.refresh is LoadState.Error) {
@@ -175,7 +170,7 @@ fun PostsScreen(navController: NavController) {
                             )
                         }
                     }
-                    if (displayPosts.itemCount == 0) {
+                    if (displayPosts.itemCount == 0 && displayPosts.loadState.refresh !is LoadState.Loading) {
                         item {
                             Text(
                                 "No posts found",
@@ -189,6 +184,71 @@ fun PostsScreen(navController: NavController) {
                     }
                 }
             }
+        }
+    }
+}
+
+// Reusable Shimmer Post Card for loading animation
+@Composable
+fun ShimmerPostCard() {
+    val shimmerColors = listOf(
+        MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+        MaterialTheme.colorScheme.surface.copy(alpha = 0.2f),
+        MaterialTheme.colorScheme.surface.copy(alpha = 0.6f)
+    )
+
+    val transition = rememberInfiniteTransition()
+    val translateAnim = transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1000f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1200, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    val brush = Brush.linearGradient(
+        colors = shimmerColors,
+        start = Offset.Zero,
+        end = Offset(x = translateAnim.value, y = translateAnim.value)
+    )
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium)
+            .shadow(2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .background(brush),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            // Placeholder for title
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.7f)
+                    .height(20.dp)
+                    .background(brush, RoundedCornerShape(4.dp))
+            )
+            // Placeholder for body (3 lines)
+            repeat(3) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(16.dp)
+                        .background(brush, RoundedCornerShape(4.dp))
+                )
+            }
+            // Placeholder for favorite button
+            Box(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .size(24.dp)
+                    .background(brush, RoundedCornerShape(50))
+            )
         }
     }
 }
