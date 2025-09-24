@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -27,32 +28,45 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.example.jetpackcomposeapp.LocalDarkTheme
 import com.example.jetpackcomposeapp.LocalSharedPreferences
 import kotlinx.coroutines.flow.map
+import androidx.compose.material3.Shapes
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 val Context.themeDataStore: DataStore<Preferences> by preferencesDataStore(name = "theme")
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = LightPurpleDark,
+    secondary = MutedPurpleDark,
+    tertiary = SoftPinkDark,
+    background = DarkBackground,
+    surface = DarkSurface,
+    onPrimary = Color.Black,
+    onSecondary = Color.Black,
+    onTertiary = Color.Black,
+    onBackground = LightGray,
+    onSurface = LightGray,
+    error = LightRed
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
+    primary = DeepPurple,
+    secondary = LightPurple,
+    tertiary = VividPink,
+    background = SoftGray,
+    surface = White,
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    onBackground = DarkGray,
+    onSurface = DarkGray,
+    error = ErrorRed
 )
 
-
+val AppShapes = Shapes(
+    small = RoundedCornerShape(8.dp),
+    medium = RoundedCornerShape(12.dp),
+    large = RoundedCornerShape(16.dp)
+)
 
 @Composable
 fun JetpackComposeAppTheme(
@@ -101,9 +115,8 @@ fun JetpackComposeAppTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
+            shapes = AppShapes,
             content = content
         )
     }
 }
-
-
