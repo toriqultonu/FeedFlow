@@ -43,7 +43,7 @@ An Android application built with Jetpack Compose that demonstrates user authent
 ## Setup & Build Instructions
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/jetpack-compose-app.git
+   git clone https://github.com/toriqultonu/FeedFlow.git
    ```
 2. Open the project in Android Studio (version Arctic Fox or later recommended).
 3. Sync the Gradle files (Android Studio will prompt you, or use File > Sync Project with Gradle Files).
