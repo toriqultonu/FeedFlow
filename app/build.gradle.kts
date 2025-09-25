@@ -54,22 +54,20 @@ android {
 
 dependencies {
 
-    // ... other dependencies
-    implementation("androidx.hilt:hilt-work:1.2.0") // Or the latest version
-    ksp("androidx.hilt:hilt-compiler:1.2.0") //
+    implementation(libs.androidx.hilt.work) // Or the latest version
+    ksp(libs.androidx.hilt.compiler) //
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-    val nav_version = "2.9.4"
 
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation(libs.androidx.navigation.compose)
 
-    implementation("androidx.paging:paging-compose:3.3.0") // Or the latest version
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0") // Or the latest version
+    implementation(libs.androidx.paging.compose) // Or the latest version
+    implementation(libs.androidx.hilt.navigation.compose) // Or the latest version
 
     implementation(libs.androidx.datastore.preferences)
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation(libs.androidx.work.runtime.ktx)
 
     implementation(libs.androidx.material.icons.extended)
 
@@ -104,36 +102,51 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    val room_version = "2.8.0"
 
-    implementation("androidx.room:room-runtime:$room_version")
 
-    // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
-    // See Add the KSP plugin to your project
-    ksp("androidx.room:room-compiler:$room_version")
+    implementation(libs.androidx.room.runtime)
 
-    // If this project only uses Java source, use the Java annotationProcessor
-    // No additional plugins are necessary
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    ksp(libs.androidx.room.room.compiler)
+
+
+    annotationProcessor(libs.androidx.room.room.compiler)
 
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation(libs.androidx.room.ktx)
 
     // optional - RxJava2 support for Room
-    implementation("androidx.room:room-rxjava2:$room_version")
+    implementation(libs.androidx.room.rxjava2)
 
     // optional - RxJava3 support for Room
-    implementation("androidx.room:room-rxjava3:$room_version")
+    implementation(libs.androidx.room.rxjava3)
 
     // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation("androidx.room:room-guava:$room_version")
+    implementation(libs.androidx.room.guava)
 
     // optional - Test helpers
-    testImplementation("androidx.room:room-testing:$room_version")
+    testImplementation(libs.androidx.room.testing)
 
     // optional - Paging 3 Integration
-    implementation("androidx.room:room-paging:$room_version")
+    implementation(libs.androidx.room.paging)
 
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.9.2")
+    implementation(libs.androidx.ui.text.google.fonts)
+
+    // Unit tests
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.androidx.core.testing) // For InstantTaskExecutorRule
+    testImplementation(libs.kotlinx.coroutines.test) // For coroutine testing
+
+// UI tests
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core) // Optional if mixing with Espresso
+    androidTestImplementation(libs.ui.test.junit4) // Compose UI Testing
+    debugImplementation(libs.ui.test.manifest) // For test manifest
+
+    androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation("org.mockito:mockito-android:5.14.0")
+
 
 }
