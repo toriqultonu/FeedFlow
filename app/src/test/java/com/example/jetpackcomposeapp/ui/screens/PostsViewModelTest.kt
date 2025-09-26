@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingData
 import com.example.jetpackcomposeapp.data.repository.PostRepository
 import com.example.jetpackcomposeapp.domain.model.Post
+import com.example.jetpackcomposeapp.ui.viewmodel.PostsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf

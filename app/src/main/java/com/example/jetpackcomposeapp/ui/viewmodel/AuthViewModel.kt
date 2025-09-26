@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeapp.ui.screens
+package com.example.jetpackcomposeapp.ui.viewmodel
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
@@ -6,6 +6,7 @@ import com.example.jetpackcomposeapp.data.local.UserDao
 import com.example.jetpackcomposeapp.data.local.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -16,11 +17,11 @@ class AuthViewModel @Inject constructor(
     fun getLoggedInEmail(): String? = sharedPreferences.getString("logged_in_email", null)
 
     private fun saveLoggedInEmail(email: String) {
-        sharedPreferences.edit().putString("logged_in_email", email).apply()
+        sharedPreferences.edit { putString("logged_in_email", email) }
     }
 
     fun logout() {
-        sharedPreferences.edit().remove("logged_in_email").apply()
+        sharedPreferences.edit { remove("logged_in_email") }
     }
 
     suspend fun register(email: String, password: String): Boolean {

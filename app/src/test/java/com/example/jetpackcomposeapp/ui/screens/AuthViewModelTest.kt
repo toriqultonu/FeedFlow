@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.jetpackcomposeapp.data.local.UserDao
 import com.example.jetpackcomposeapp.data.local.UserEntity
+import com.example.jetpackcomposeapp.ui.viewmodel.AuthViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher

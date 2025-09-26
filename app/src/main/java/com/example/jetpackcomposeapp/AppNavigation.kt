@@ -5,7 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpackcomposeapp.ui.screens.AuthViewModel
+import com.example.jetpackcomposeapp.ui.viewmodel.AuthViewModel
 import com.example.jetpackcomposeapp.ui.screens.FavoritesScreen
 import com.example.jetpackcomposeapp.ui.screens.LoginScreen
 import com.example.jetpackcomposeapp.ui.screens.PostsScreen

@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeapp.ui.screens
+package com.example.jetpackcomposeapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

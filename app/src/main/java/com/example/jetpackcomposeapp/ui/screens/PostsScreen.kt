@@ -31,10 +31,11 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.jetpackcomposeapp.LocalDarkTheme
-import com.example.jetpackcomposeapp.LocalSharedPreferences
 import com.example.jetpackcomposeapp.R
 import com.example.jetpackcomposeapp.ui.theme.PreferencesKeys
 import com.example.jetpackcomposeapp.ui.theme.themeDataStore
+import com.example.jetpackcomposeapp.ui.viewmodel.AuthViewModel
+import com.example.jetpackcomposeapp.ui.viewmodel.PostsViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
