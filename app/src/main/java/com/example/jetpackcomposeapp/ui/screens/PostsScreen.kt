@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
@@ -31,6 +32,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.jetpackcomposeapp.LocalDarkTheme
 import com.example.jetpackcomposeapp.LocalSharedPreferences
+import com.example.jetpackcomposeapp.R
 import com.example.jetpackcomposeapp.ui.theme.PreferencesKeys
 import com.example.jetpackcomposeapp.ui.theme.themeDataStore
 import kotlinx.coroutines.launch
@@ -50,7 +52,7 @@ fun PostsScreen(navController: NavController) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Explore Posts", style = MaterialTheme.typography.titleLarge) },
+                    title = { Text(stringResource(R.string.explore_posts), style = MaterialTheme.typography.titleLarge) },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -58,7 +60,7 @@ fun PostsScreen(navController: NavController) {
                     ),
                     actions = {
                         IconButton(onClick = { navController.navigate("favorites") }) {
-                            Icon(Icons.Default.Favorite, contentDescription = "Favorites")
+                            Icon(Icons.Default.Favorite, contentDescription = stringResource(R.string.favorites))
                         }
                         IconButton(onClick = {
                             val newValue = !isDarkTheme.value
@@ -80,7 +82,9 @@ fun PostsScreen(navController: NavController) {
                                 popUpTo(0) { inclusive = true }
                             }
                         }) {
-                            Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Logout")
+                            Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = stringResource(
+                                R.string.logout
+                            ))
                         }
                     }
                 )
@@ -91,7 +95,7 @@ fun PostsScreen(navController: NavController) {
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    label = { Text("Search Posts") },
+                    label = { Text(stringResource(R.string.search_posts)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -141,7 +145,7 @@ fun PostsScreen(navController: NavController) {
                                 ) {
                                     Icon(
                                         if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                                        contentDescription = "Favorite",
+                                        contentDescription = stringResource(R.string.favorite),
                                         tint = if (isFavorite) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurface
                                     )
                                 }

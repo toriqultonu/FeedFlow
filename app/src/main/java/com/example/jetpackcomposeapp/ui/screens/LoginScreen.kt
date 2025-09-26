@@ -23,9 +23,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.jetpackcomposeapp.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -59,6 +61,11 @@ fun LoginScreen(navController: NavController) {
         )
     )
 
+    val passwordTooShortMsg = stringResource(R.string.password_must_be_at_least_6_characters)
+    val invalidEmail = stringResource(R.string.invalid_email_format)
+    val invalidCredential = stringResource(R.string.invalid_credentials)
+
+
     AnimatedVisibility(visible = true, enter = fadeIn()) {
         Column(
             modifier = Modifier
@@ -80,7 +87,7 @@ fun LoginScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Welcome Back",
+                        text = stringResource(R.string.welcome_back),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -89,16 +96,18 @@ fun LoginScreen(navController: NavController) {
                         value = email,
                         onValueChange = {
                             email = it
-                            emailError = null // Clear error when typing
+                            emailError = null
                         },
-                        label = { Text("Email") },
+                        label = { Text(stringResource(R.string.email)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .focusRequester(emailFocusRequester)
                             .onFocusChanged { focusState ->
                                 if (!focusState.isFocused && email.isNotEmpty()) {
-                                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                                        emailError = "Invalid email format"
+                                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+                                            .matches()
+                                    ) {
+                                        emailError = invalidEmail
                                         emailShake = true
                                         coroutineScope.launch {
                                             delay(300)
@@ -140,9 +149,9 @@ fun LoginScreen(navController: NavController) {
                         value = password,
                         onValueChange = {
                             password = it
-                            passwordError = null // Clear error when typing
+                            passwordError = null
                         },
-                        label = { Text("Password") },
+                        label = { Text(stringResource(R.string.password)) },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -150,7 +159,7 @@ fun LoginScreen(navController: NavController) {
                             .onFocusChanged { focusState ->
                                 if (!focusState.isFocused && password.isNotEmpty()) {
                                     if (password.length < 6) {
-                                        passwordError = "Password must be at least 6 characters"
+                                        passwordError = passwordTooShortMsg
                                         passwordShake = true
                                         coroutineScope.launch {
                                             delay(300)
@@ -196,7 +205,7 @@ fun LoginScreen(navController: NavController) {
                             generalError = ""
                             var hasError = false
                             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                                emailError = "Invalid email format"
+                                emailError = invalidEmail
                                 emailShake = true
                                 hasError = true
                                 coroutineScope.launch {
@@ -205,7 +214,7 @@ fun LoginScreen(navController: NavController) {
                                 }
                             }
                             if (password.length < 6) {
-                                passwordError = "Password must be at least 6 characters"
+                                passwordError = passwordTooShortMsg
                                 passwordShake = true
                                 hasError = true
                                 coroutineScope.launch {
@@ -220,7 +229,7 @@ fun LoginScreen(navController: NavController) {
                                             popUpTo("login") { inclusive = true }
                                         }
                                     } else {
-                                        generalError = "Invalid credentials"
+                                        generalError = invalidCredential
                                     }
                                 }
                             }
@@ -239,7 +248,7 @@ fun LoginScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(12.dp))
                     TextButton(onClick = { navController.navigate("register") }) {
                         Text(
-                            "Create an account",
+                            stringResource(R.string.create_an_account),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.secondary
                         )

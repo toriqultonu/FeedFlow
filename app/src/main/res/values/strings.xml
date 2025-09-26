@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">FeedFlow</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="email">Email</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="password">Password</string>
+    <string name="password_must_be_at_least_6_characters">Password must be at least 6 characters</string>
+    <string name="invalid_credentials">Invalid credentials</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="explore_posts">Explore Posts</string>
+    <string name="favorites">Favorites</string>
+    <string name="logout">Logout</string>
+    <string name="search_posts">Search Posts</string>
+    <string name="favorite">Favorite</string>
+    <string name="create_account">Create Account</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="email_already_registered">Email already registered</string>
+    <string name="register">Register</string>
+    <string name="error_loading_favorites">Error loading favorites</string>
+    <string name="no_favorites_yet">No favorites yet</string>
 </resources>

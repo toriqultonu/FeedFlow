@@ -23,9 +23,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.jetpackcomposeapp.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -70,6 +72,12 @@ fun RegisterScreen(navController: NavController) {
         )
     )
 
+    val passwordTooShortMsg = stringResource(R.string.password_must_be_at_least_6_characters)
+    val passwordNotMatch = stringResource(R.string.passwords_do_not_match)
+    val invalidEmail = stringResource(R.string.invalid_email_format)
+    val emailAlreadyExist = stringResource(R.string.email_already_registered)
+
+
     AnimatedVisibility(visible = true, enter = fadeIn()) {
         Column(
             modifier = Modifier
@@ -91,7 +99,7 @@ fun RegisterScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Create Account",
+                        text = stringResource(R.string.create_account),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -100,16 +108,18 @@ fun RegisterScreen(navController: NavController) {
                         value = email,
                         onValueChange = {
                             email = it
-                            emailError = null // Clear error when typing
+                            emailError = null
                         },
-                        label = { Text("Email") },
+                        label = { Text(stringResource(R.string.email)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .focusRequester(emailFocusRequester)
                             .onFocusChanged { focusState ->
                                 if (!focusState.isFocused && email.isNotEmpty()) {
-                                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                                        emailError = "Invalid email format"
+                                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+                                            .matches()
+                                    ) {
+                                        emailError = invalidEmail
                                         emailShake = true
                                         coroutineScope.launch {
                                             delay(300)
@@ -151,12 +161,12 @@ fun RegisterScreen(navController: NavController) {
                         value = password,
                         onValueChange = {
                             password = it
-                            passwordError = null // Clear error when typing
+                            passwordError = null
                             if (confirmPassword.isNotEmpty()) {
-                                confirmPasswordError = null // Clear confirm password error if password changes
+                                confirmPasswordError = null
                             }
                         },
-                        label = { Text("Password") },
+                        label = { Text(stringResource(R.string.password)) },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -164,7 +174,7 @@ fun RegisterScreen(navController: NavController) {
                             .onFocusChanged { focusState ->
                                 if (!focusState.isFocused && password.isNotEmpty()) {
                                     if (password.length < 6) {
-                                        passwordError = "Password must be at least 6 characters"
+                                        passwordError = passwordTooShortMsg
                                         passwordShake = true
                                         coroutineScope.launch {
                                             delay(300)
@@ -206,9 +216,9 @@ fun RegisterScreen(navController: NavController) {
                         value = confirmPassword,
                         onValueChange = {
                             confirmPassword = it
-                            confirmPasswordError = null // Clear error when typing
+                            confirmPasswordError = null
                         },
-                        label = { Text("Confirm Password") },
+                        label = { Text(stringResource(R.string.confirm_password)) },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -263,7 +273,7 @@ fun RegisterScreen(navController: NavController) {
                             generalError = ""
                             var hasError = false
                             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                                emailError = "Invalid email format"
+                                emailError = invalidEmail
                                 emailShake = true
                                 hasError = true
                                 coroutineScope.launch {
@@ -272,7 +282,7 @@ fun RegisterScreen(navController: NavController) {
                                 }
                             }
                             if (password.length < 6) {
-                                passwordError = "Password must be at least 6 characters"
+                                passwordError = passwordTooShortMsg
                                 passwordShake = true
                                 hasError = true
                                 coroutineScope.launch {
@@ -281,7 +291,7 @@ fun RegisterScreen(navController: NavController) {
                                 }
                             }
                             if (confirmPassword != password) {
-                                confirmPasswordError = "Passwords do not match"
+                                confirmPasswordError = passwordNotMatch
                                 confirmPasswordShake = true
                                 hasError = true
                                 coroutineScope.launch {
@@ -296,7 +306,7 @@ fun RegisterScreen(navController: NavController) {
                                             popUpTo("register") { inclusive = true }
                                         }
                                     } else {
-                                        generalError = "Email already registered"
+                                        generalError = emailAlreadyExist
                                     }
                                 }
                             }
@@ -310,7 +320,7 @@ fun RegisterScreen(navController: NavController) {
                             contentColor = MaterialTheme.colorScheme.onPrimary
                         )
                     ) {
-                        Text("Register", style = MaterialTheme.typography.labelMedium)
+                        Text(stringResource(R.string.register), style = MaterialTheme.typography.labelMedium)
                     }
                     if (generalError.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(8.dp))

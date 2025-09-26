@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.jetpackcomposeapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +31,7 @@ fun FavoritesScreen(navController: NavController) {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("My Favorites", style = MaterialTheme.typography.titleLarge) },
+                    title = { Text(stringResource(R.string.my_favorites), style = MaterialTheme.typography.titleLarge) },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -68,7 +70,7 @@ fun FavoritesScreen(navController: NavController) {
                 if (favorites.loadState.refresh is LoadState.Loading) {
                     // Show 5 shimmering placeholders for initial load
                     items(5) {
-                        ShimmerPostCard() // Reuse the same shimmer from PostsScreen
+                        ShimmerPostCard()
                     }
                 }
                 if (favorites.loadState.append is LoadState.Loading) {
@@ -80,7 +82,7 @@ fun FavoritesScreen(navController: NavController) {
                 if (favorites.loadState.refresh is LoadState.Error) {
                     item {
                         Text(
-                            "Error loading favorites",
+                            stringResource(R.string.error_loading_favorites),
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(16.dp),
                             style = MaterialTheme.typography.bodyLarge
@@ -90,7 +92,7 @@ fun FavoritesScreen(navController: NavController) {
                 if (favorites.itemCount == 0 && favorites.loadState.refresh !is LoadState.Loading) {
                     item {
                         Text(
-                            "No favorites yet",
+                            stringResource(R.string.no_favorites_yet),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
