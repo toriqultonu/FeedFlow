@@ -56,7 +56,7 @@ jobs:
 
       - name: Rename APK with versionCode
         run: |
-          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/FeedFlow_${{ env.VERSION_CODE }}.apk
+          mv app/build/release/app-release.apk app/build/release/FeedFlow_${{ env.VERSION_CODE }}.apk
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
