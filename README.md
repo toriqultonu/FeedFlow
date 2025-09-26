@@ -1,6 +1,6 @@
 # Feed Flow
 
-An Android application built with Jetpack Compose that demonstrates user authentication, data retrieval from a local JSON file (simulating a remote API like JSONPlaceholder), offline support using Room database, search functionality, favorites management, and dark mode toggle.
+An Android application built with Jetpack Compose that demonstrates user authentication, data retrieval from a remote API like JSONPlaceholder, offline support using Room database, search functionality, favorites management, and dark mode toggle.
 
 ## Features
 - **User Authentication**:
@@ -12,7 +12,7 @@ An Android application built with Jetpack Compose that demonstrates user authent
   - Logout button on the posts screen.
 
 - **Posts Display**:
-  - Loads posts from a local `posts.json` file in assets (simulating JSONPlaceholder API).
+  - Loads posts from JSONPlaceholder API.
   - Displays posts with title and body using lazy loading and Paging 3 for efficient scrolling.
   - Handles loading, error, and empty states.
 
@@ -48,7 +48,6 @@ An Android application built with Jetpack Compose that demonstrates user authent
 2. Open the project in Android Studio (version Arctic Fox or later recommended).
 3. Sync the Gradle files (Android Studio will prompt you, or use File > Sync Project with Gradle Files).
 4. Build and run the app on an emulator or physical device (minimum SDK 24 - Android 7.0).
-   - Ensure the `posts.json` file is in `app/src/main/assets/` (it contains sample posts data).
 
 ## App Architecture and Libraries Used
 - **Architecture**: MVVM with Clean Architecture principles (data, domain, ui layers).
@@ -80,8 +79,5 @@ An Android application built with Jetpack Compose that demonstrates user authent
 https://github.com/user-attachments/assets/6a2ea1ec-8f61-47fa-9fb2-f3cdf6affa77
 
 
-
-
-(Replace with actual screenshot paths if uploading to GitHub.)
 
 For any issues or contributions, feel free to open a pull request or issue!
