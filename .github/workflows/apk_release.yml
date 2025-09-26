@@ -45,11 +45,11 @@ jobs:
       - name: Build release APK
         run: ./gradlew assembleRelease
 
-      - name: Get versionCode from build.gradle
+      - name: Get versionCode from build.gradle.kts
         id: version
         run: |
-          VERSION_CODE=$(grep versionCode app/build.gradle | head -n 1 | grep -o '[0-9]*')
-          VERSION_NAME=$(grep versionName app/build.gradle | head -n 1 | grep -o '[0-9]\+\(\.[0-9]\+\)*')
+          VERSION_CODE=$(grep versionCode app/build.gradle.kts | head -n 1 | grep -o '[0-9]*')
+          VERSION_NAME=$(grep versionName app/build.gradle.kts | head -n 1 | grep -o '[0-9]\+\(\.[0-9]\+\)*')
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
           echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
