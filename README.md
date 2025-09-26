@@ -72,24 +72,15 @@ An Android application built with Jetpack Compose that demonstrates user authent
 - **Offline Support**: Fully supported via Room cache. Search and favorites work on cached data only.
 - **Dark Mode**: Persisted via DataStore; toggle overrides system setting.
 - **No Images**: Posts do not include images (as per JSONPlaceholder structure).
-- **No Tests**: Unit/UI tests not implemented for brevity (bonus optional).
+- **Tests**: Unit/UI tests implemented for brevity.
 - **Platform**: Tested on Android 7.0+; dynamic colors require Android 12+.
 
-## Screenshots
-- **Login Screen**:
-  ![Login Screen](screenshots/login.png)
+## Demo Uses
 
-- **Register Screen**:
-  ![Register Screen](screenshots/register.png)
+https://github.com/user-attachments/assets/6a2ea1ec-8f61-47fa-9fb2-f3cdf6affa77
 
-- **Posts Screen** (with search and favorites toggle):
-  ![Posts Screen](screenshots/posts.png)
 
-- **Favorites Screen**:
-  ![Favorites Screen](screenshots/favorites.png)
 
-- **Dark Mode**:
-  ![Dark Mode](screenshots/dark_mode.png)
 
 (Replace with actual screenshot paths if uploading to GitHub.)
 
