@@ -32,30 +32,35 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Decode Keystore to app directory
+      - name: Decode Keystore to root directory
         run: |
-          mkdir -p app
-          echo "${{ secrets.FEED_FLOW }}" | base64 --decode > app/feedflow.jks
+          echo "${{ secrets.FEED_FLOW }}" | base64 --decode > feedflow.jks
 
-      - name: Create keystore.properties inside app directory
+      - name: Create keystore.properties in root directory
         run: |
-          echo storeFile=feedflow.jks > app/keystore.properties
-          echo storePassword=${KEYSTORE_PASSWORD} >> app/keystore.properties
-          echo keyAlias=${KEY_ALIAS} >> app/keystore.properties
-          echo keyPassword=${KEY_PASSWORD} >> app/keystore.properties
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          echo "storeFile=feedflow.jks" > keystore.properties
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+
+      - name: Debug - Verify keystore files
+        run: |
+          echo "Contents of keystore.properties:"
+          cat keystore.properties
+          echo "Keystore file exists:"
+          ls -la feedflow.jks
 
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x ./gradlew
 
       - name: Build release APK
-        run: ./gradlew assembleRelease --stacktrace
+        run: ./gradlew assembleRelease --stacktrace --info
 
       - name: Debug - List build outputs
-        run: ls -R app/build/outputs
+        run: |
+          echo "Build outputs:"
+          find app/build/outputs -name "*.apk" -type f
+          ls -la app/build/outputs/apk/release/
 
       - name: Get versionCode from build.gradle.kts
         id: version
@@ -68,7 +73,16 @@ jobs:
 
       - name: Rename APK with versionCode
         run: |
-          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/FeedFlow_${{ env.VERSION_CODE }}.apk
+          # Check if signed APK exists first
+          if [ -f "app/build/outputs/apk/release/app-release.apk" ]; then
+            mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/FeedFlow_${{ env.VERSION_CODE }}.apk
+          elif [ -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
+            echo "Warning: Found unsigned APK, signing configuration may be incorrect"
+            mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/FeedFlow_${{ env.VERSION_CODE }}_unsigned.apk
+          else
+            echo "Error: No APK found in expected location"
+            exit 1
+          fi
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
