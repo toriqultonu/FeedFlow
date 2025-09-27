@@ -39,6 +39,7 @@ An Android application built with Jetpack Compose that demonstrates user authent
   - Coroutines and Flow for asynchronous operations.
   - Dependency Injection with Hilt.
   - Clean, modular code with separation of concerns.
+  - Github action for CI/CD.
 
 ## Setup & Build Instructions
 1. Clone the repository:
