@@ -2,8 +2,8 @@ name: Android Release Build
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -13,6 +13,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
 
       - name: Set up Java
         uses: actions/setup-java@v3
@@ -30,10 +39,10 @@ jobs:
 
       - name: Create keystore.properties inside app directory
         run: |
-          echo storeFile=feedflow.jks > keystore.properties
-          echo storePassword=${KEYSTORE_PASSWORD} >> keystore.properties
-          echo keyAlias=${KEY_ALIAS} >> keystore.properties
-          echo keyPassword=${KEY_PASSWORD} >> keystore.properties
+          echo storeFile=feedflow.jks > app/keystore.properties
+          echo storePassword=${KEYSTORE_PASSWORD} >> app/keystore.properties
+          echo keyAlias=${KEY_ALIAS} >> app/keystore.properties
+          echo keyPassword=${KEY_PASSWORD} >> app/keystore.properties
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -48,21 +57,21 @@ jobs:
       - name: Get versionCode from build.gradle.kts
         id: version
         run: |
-          VERSION_CODE=$(grep versionCode app/build.gradle.kts | head -n 1 | grep -o '[0-9]*')
-          VERSION_NAME=$(grep versionName app/build.gradle.kts | head -n 1 | grep -o '[0-9]\+\(\.[0-9]\+\)*')
+          VERSION_CODE=$(grep 'versionCode =' app/build.gradle.kts | awk '{print $3}')
+          VERSION_NAME=$(grep 'versionName =' app/build.gradle.kts | awk -F'"' '{print $2}')
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
           echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
 
       - name: Rename APK with versionCode
         run: |
-          mv app/build/release/app-release.apk app/build/release/FeedFlow_${{ env.VERSION_CODE }}.apk
+          mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/FeedFlow_${{ env.VERSION_CODE }}.apk
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: Release v${{ env.VERSION_NAME }}
-          tag_name: v${{ env.VERSION_NAME }}
+          tag_name: ${{ github.ref_name }}
           files: app/build/outputs/apk/release/FeedFlow_${{ env.VERSION_CODE }}.apk
 
         env:
